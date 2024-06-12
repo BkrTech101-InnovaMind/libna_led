@@ -5,7 +5,6 @@ class ImagesPathes {
   static const String buttonD = "assets/d_button.svg";
   static const String buttonE = "assets/e_button.svg";
   static const String pickerButton = "assets/picker_button.svg";
-  // static const String stairsButton = "assets/stairs_button.svg";
   static const String stairsLeftButton = "assets/stairs_left_button.svg";
   static const String stairsRightButton = "assets/stairs_right_button.svg";
   static const String powerButtonContainer =
