@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:libna/common/images_paths.dart';
+import 'package:libna/components/color_picker.dart';
 import 'package:libna/components/image_buton.dart';
 import 'package:libna/modules/button_data.dart';
 import 'package:libna/theme/theme_data.dart';
@@ -108,12 +109,19 @@ class _LibnaAppState extends State<LibnaApp> {
   }
 
   Widget _buildPickerSection(BuildContext context) {
-    return CustomButtonWithImage(
-      buttonData:
-          ButtonData(0, ImagesPathes.powerButton, _onPowerButtonPressed),
-      isSelected: false,
-      isOn: false,
-      onButtonSelected: (id) {},
+    return Column(
+      children: [
+        ColorPicker(
+          onColorSelected: (spectrumColor, selectedColor) {},
+        ),
+        CustomButtonWithImage(
+          buttonData:
+              ButtonData(0, ImagesPathes.powerButton, _onPowerButtonPressed),
+          isSelected: false,
+          isOn: false,
+          onButtonSelected: (id) {},
+        )
+      ],
     );
   }
 }
