@@ -4,6 +4,7 @@ import 'package:libna/common/images_paths.dart';
 import 'package:libna/common/water_colors.dart';
 import 'package:libna/components/color_picker.dart';
 import 'package:libna/components/data_send_button.dart';
+import 'package:libna/components/footer_text.dart';
 import 'package:libna/components/image_buton.dart';
 import 'package:libna/modules/button_data.dart';
 import 'package:libna/theme/theme_data.dart';
@@ -120,6 +121,7 @@ class _LibnaAppState extends State<LibnaApp> {
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 _buildFirstSection(context),
                 Row(
@@ -145,6 +147,7 @@ class _LibnaAppState extends State<LibnaApp> {
                   ],
                 ),
                 _buildEffectsSection(context),
+                const FooterText(),
               ],
             ),
           ),
@@ -154,6 +157,7 @@ class _LibnaAppState extends State<LibnaApp> {
           onPressed: () => print(selectedButtonData),
           color: buttonColors[selectedButtonId],
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       ),
     );
   }
