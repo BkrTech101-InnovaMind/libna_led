@@ -33,10 +33,8 @@ class _LibnaAppState extends State<LibnaApp> {
       setState(() {
         bool isCurrentlyOn = buttonStates[selectedButtonId] ?? false;
 
-        // Check if the selected button is an effect button
         bool isEffectButton = _isEffectButton(selectedButtonId);
 
-        // Turn off all other effect buttons only when one is being turned on
         if (!isCurrentlyOn && isEffectButton) {
           buttonStates.forEach((key, value) {
             if (key != selectedButtonId && _isEffectButton(key)) {
@@ -45,7 +43,6 @@ class _LibnaAppState extends State<LibnaApp> {
           });
         }
 
-        // Toggle the state of the selected button
         buttonStates[selectedButtonId] = !isCurrentlyOn;
       });
       bool isOn = buttonStates[selectedButtonId] == true;
