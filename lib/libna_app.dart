@@ -16,6 +16,7 @@ class LibnaApp extends StatefulWidget {
 
 class _LibnaAppState extends State<LibnaApp> {
   String selectedButtonId = "-1";
+  String? activeEffectButtonId;
   Map<String, bool> buttonStates = {};
   Map<String, Color> buttonColors = {};
   Map<String, dynamic> selectedButtonData = {};
@@ -25,10 +26,17 @@ class _LibnaAppState extends State<LibnaApp> {
       bool isOn = buttonStates[selectedButtonId] ?? false;
       Color color = buttonColors[selectedButtonId] ?? AppColors.onColor;
 
+      // Determine the effect letter based on activeEffectButtonId
+      String? effectLetter =
+          activeEffectButtonId != null && buttonStates[activeEffectButtonId]!
+              ? activeEffectButtonId
+              : "None";
+
       selectedButtonData = {
-        'id': selectedButtonId,
+        'id': '192.168.0.${selectedButtonId}',
         'state': isOn ? "On" : "Off",
-        'color': 'RGB(${color.red}, ${color.green}, ${color.blue})'
+        'color': 'RGB(${color.red}, ${color.green}, ${color.blue})',
+        'effect': effectLetter,
       };
 
       print(selectedButtonData);
@@ -50,6 +58,8 @@ class _LibnaAppState extends State<LibnaApp> {
         bool isEffectButton = _isEffectButton(selectedButtonId);
 
         if (!isCurrentlyOn && isEffectButton) {
+          activeEffectButtonId = selectedButtonId;
+
           buttonStates.forEach((key, value) {
             if (key != selectedButtonId && _isEffectButton(key)) {
               buttonStates[key] = false;
@@ -58,13 +68,17 @@ class _LibnaAppState extends State<LibnaApp> {
         }
 
         buttonStates[selectedButtonId] = !isCurrentlyOn;
+
+        if (buttonStates[selectedButtonId]! && isEffectButton) {
+          selectedButtonId = selectedButtonId;
+        }
       });
       _updateButtonData();
     }
   }
 
   void _onColorSelected(Color spectrumColor, SelectableColor selectedColor) {
-    if (selectedButtonId != "-1") {
+    if (selectedButtonId != "-1" && !_isEffectButton(selectedButtonId)) {
       setState(() {
         buttonColors[selectedButtonId] = spectrumColor;
       });
