@@ -3,6 +3,7 @@ import 'package:libna/common/app_colors.dart';
 import 'package:libna/common/images_paths.dart';
 import 'package:libna/common/water_colors.dart';
 import 'package:libna/components/color_picker.dart';
+import 'package:libna/components/data_send_button.dart';
 import 'package:libna/components/image_buton.dart';
 import 'package:libna/modules/button_data.dart';
 import 'package:libna/theme/theme_data.dart';
@@ -26,7 +27,6 @@ class _LibnaAppState extends State<LibnaApp> {
       bool isOn = buttonStates[selectedButtonId] ?? false;
       Color color = buttonColors[selectedButtonId] ?? AppColors.onColor;
 
-      // Determine the effect letter based on activeEffectButtonId
       String? effectLetter =
           activeEffectButtonId != null && buttonStates[activeEffectButtonId]!
               ? activeEffectButtonId
@@ -128,6 +128,9 @@ class _LibnaAppState extends State<LibnaApp> {
             ),
           ),
         ),
+        floatingActionButton: DataSendButton(
+            selectedButtonData: selectedButtonData,
+            onPressed: () => print(selectedButtonData)),
       ),
     );
   }
