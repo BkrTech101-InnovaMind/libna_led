@@ -150,8 +150,10 @@ class _LibnaAppState extends State<LibnaApp> {
           ),
         ),
         floatingActionButton: DataSendButton(
-            selectedButtonData: selectedButtonData,
-            onPressed: () => print(selectedButtonData)),
+          selectedButtonData: selectedButtonData,
+          onPressed: () => print(selectedButtonData),
+          color: buttonColors[selectedButtonId],
+        ),
       ),
     );
   }
