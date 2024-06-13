@@ -29,11 +29,24 @@ class _LibnaAppState extends State<LibnaApp> {
   }
 
   void _onPowerButtonPressed() {
-    _onButtonSelected(selectedButtonId);
     if (selectedButtonId != "-1") {
       setState(() {
-        buttonStates[selectedButtonId] =
-            !(buttonStates[selectedButtonId] ?? false);
+        bool isCurrentlyOn = buttonStates[selectedButtonId] ?? false;
+
+        // Check if the selected button is an effect button
+        bool isEffectButton = _isEffectButton(selectedButtonId);
+
+        // Turn off all other effect buttons only when one is being turned on
+        if (!isCurrentlyOn && isEffectButton) {
+          buttonStates.forEach((key, value) {
+            if (key != selectedButtonId && _isEffectButton(key)) {
+              buttonStates[key] = false;
+            }
+          });
+        }
+
+        // Toggle the state of the selected button
+        buttonStates[selectedButtonId] = !isCurrentlyOn;
       });
       bool isOn = buttonStates[selectedButtonId] == true;
       Color color = buttonColors[selectedButtonId] ?? AppColors.onColor;
@@ -52,6 +65,11 @@ class _LibnaAppState extends State<LibnaApp> {
       print(
           'Button ID: $selectedButtonId, State: ${isOn ? "On" : "Off"}, Color: RGB(${color.red}, ${color.green}, ${color.blue})');
     }
+  }
+
+  bool _isEffectButton(String id) {
+    final effectButtonIds = ["A", "B", "C", "D", "E"];
+    return effectButtonIds.contains(id);
   }
 
   @override

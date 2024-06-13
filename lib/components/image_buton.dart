@@ -48,7 +48,7 @@ class _CustomButtonWithImageState extends State<CustomButtonWithImage> {
       icon: Stack(
         alignment: Alignment.center,
         children: [
-          if (!widget.isEffect && widget.isSelected) ...[
+          if (widget.isSelected) ...[
             Positioned(
               top: -2,
               left: -2,
