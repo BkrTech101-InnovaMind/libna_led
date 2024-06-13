@@ -18,14 +18,28 @@ class _LibnaAppState extends State<LibnaApp> {
   String selectedButtonId = "-1";
   Map<String, bool> buttonStates = {};
   Map<String, Color> buttonColors = {};
+  Map<String, dynamic> selectedButtonData = {};
+
+  void _updateButtonData() {
+    if (selectedButtonId != "-1") {
+      bool isOn = buttonStates[selectedButtonId] ?? false;
+      Color color = buttonColors[selectedButtonId] ?? AppColors.onColor;
+
+      selectedButtonData = {
+        'id': selectedButtonId,
+        'state': isOn ? "On" : "Off",
+        'color': 'RGB(${color.red}, ${color.green}, ${color.blue})'
+      };
+
+      print(selectedButtonData);
+    }
+  }
 
   void _onButtonSelected(dynamic id) {
     setState(() {
       selectedButtonId = id;
     });
-    Color color = buttonColors[id] ?? AppColors.onColor;
-    print(
-        'Button ID: $selectedButtonId State: ${buttonStates[selectedButtonId] == true ? "On" : "Off"} Color: RGB(${color.red}, ${color.green}, ${color.blue})');
+    _updateButtonData();
   }
 
   void _onPowerButtonPressed() {
@@ -45,10 +59,7 @@ class _LibnaAppState extends State<LibnaApp> {
 
         buttonStates[selectedButtonId] = !isCurrentlyOn;
       });
-      bool isOn = buttonStates[selectedButtonId] == true;
-      Color color = buttonColors[selectedButtonId] ?? AppColors.onColor;
-      print(
-          'Button ID: $selectedButtonId, State: ${isOn ? "On" : "Off"}, Color: RGB(${color.red}, ${color.green}, ${color.blue})');
+      _updateButtonData();
     }
   }
 
@@ -57,10 +68,7 @@ class _LibnaAppState extends State<LibnaApp> {
       setState(() {
         buttonColors[selectedButtonId] = spectrumColor;
       });
-      bool isOn = buttonStates[selectedButtonId] == true;
-      Color color = buttonColors[selectedButtonId] ?? AppColors.onColor;
-      print(
-          'Button ID: $selectedButtonId, State: ${isOn ? "On" : "Off"}, Color: RGB(${color.red}, ${color.green}, ${color.blue})');
+      _updateButtonData();
     }
   }
 
