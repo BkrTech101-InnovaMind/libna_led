@@ -9,6 +9,7 @@ class CustomButtonWithImage extends StatefulWidget {
   final bool isSelected;
   final bool isOn;
   final Function(int) onButtonSelected;
+  final Color? selectedColor;
 
   const CustomButtonWithImage({
     super.key,
@@ -17,6 +18,7 @@ class CustomButtonWithImage extends StatefulWidget {
     required this.isSelected,
     required this.onButtonSelected,
     required this.isOn,
+    this.selectedColor,
   });
 
   @override
@@ -75,7 +77,7 @@ class _CustomButtonWithImageState extends State<CustomButtonWithImage> {
             width: widget.width ?? MediaQuery.of(context).size.width / 4,
             colorFilter: ColorFilter.mode(
               widget.isOn
-                  ? AppColors.onColor
+                  ? widget.selectedColor ?? AppColors.onColor
                   : widget.isSelected
                       ? widget.isOn
                           ? AppColors.onColor
