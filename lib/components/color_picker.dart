@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:libna/common/water_colors.dart';
 
@@ -52,37 +54,35 @@ class _ColorPickerState extends State<ColorPicker> {
       onHorizontalDragUpdate: (DragUpdateDetails details) {
         _selectColors(details.localPosition);
       },
-      child: ColorSpectrum(
-        colors: selectableColors
-            .map((SelectableColor color) => color.color)
-            .toList(),
-        // width: widget.width ?? MediaQuery.of(context).size.width / 6,
+      child: CustomPaint(
+        size: Size(widget.width ?? MediaQuery.of(context).size.width / 2, 100),
+        painter: SemicirclePainter(
+          colors: selectableColors
+              .map((SelectableColor color) => color.color)
+              .toList(),
+        ),
         child: widget.child,
       ),
     );
   }
 }
 
-class ColorSpectrum extends StatelessWidget {
-  final Widget? child;
-  final double? width;
+class SemicirclePainter extends CustomPainter {
   final List<Color> colors;
+  SemicirclePainter({required this.colors});
+  @override
+  void paint(Canvas canvas, Size size) {
+    final arcRect = Rect.fromCircle(
+        center: size.center(Offset.zero), radius: size.shortestSide / 1.4);
+    final gradient = Paint()
+      ..shader = LinearGradient(colors: colors).createShader(arcRect)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 15
+      ..strokeCap = StrokeCap.round;
 
-  const ColorSpectrum({
-    super.key,
-    required this.colors,
-    this.width,
-    required this.child,
-  });
+    canvas.drawArc(arcRect, 0, -pi, false, gradient);
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-        colors: colors,
-      )),
-      child: child,
-    );
-  }
+  bool shouldRepaint(SemicirclePainter oldDelegate) => false;
 }
