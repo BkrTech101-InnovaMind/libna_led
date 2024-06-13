@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:libna/common/water_colors.dart';
 
 class ColorPicker extends StatefulWidget {
-  const ColorPicker({super.key, this.onColorSelected});
+  final double? width;
 
   final Function(Color spectrumColor, SelectableColor selectedColor)?
       onColorSelected;
+  final Widget? child;
+
+  const ColorPicker({super.key, this.onColorSelected, this.width, this.child});
 
   @override
   State<ColorPicker> createState() => _ColorPickerState();
@@ -38,9 +41,6 @@ class _ColorPickerState extends State<ColorPicker> {
         localPosition <= 0.5 ? leftColor : rightColor;
 
     widget.onColorSelected?.call(spectrumColor, selectedColor);
-
-    print(
-        'Selected color: RGB(${spectrumColor.red}, ${spectrumColor.green}, ${spectrumColor.blue})');
   }
 
   @override
@@ -56,25 +56,33 @@ class _ColorPickerState extends State<ColorPicker> {
         colors: selectableColors
             .map((SelectableColor color) => color.color)
             .toList(),
+        // width: widget.width ?? MediaQuery.of(context).size.width / 6,
+        child: widget.child,
       ),
     );
   }
 }
 
 class ColorSpectrum extends StatelessWidget {
-  const ColorSpectrum({super.key, required this.colors});
-
+  final Widget? child;
+  final double? width;
   final List<Color> colors;
+
+  const ColorSpectrum({
+    super.key,
+    required this.colors,
+    this.width,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 400,
-      height: 100,
       decoration: BoxDecoration(
           gradient: LinearGradient(
         colors: colors,
       )),
+      child: child,
     );
   }
 }
