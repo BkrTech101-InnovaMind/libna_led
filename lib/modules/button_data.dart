@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ButtonData {
-  final int id;
+  final dynamic id;
   final String assetName;
   final VoidCallback onPressed;
 

@@ -15,11 +15,11 @@ class LibnaApp extends StatefulWidget {
 }
 
 class _LibnaAppState extends State<LibnaApp> {
-  int selectedButtonId = -1;
-  Map<int, bool> buttonStates = {};
-  Map<int, Color> buttonColors = {};
+  String selectedButtonId = "-1";
+  Map<String, bool> buttonStates = {};
+  Map<String, Color> buttonColors = {};
 
-  void _onButtonSelected(int id) {
+  void _onButtonSelected(dynamic id) {
     setState(() {
       selectedButtonId = id;
     });
@@ -30,7 +30,7 @@ class _LibnaAppState extends State<LibnaApp> {
 
   void _onPowerButtonPressed() {
     _onButtonSelected(selectedButtonId);
-    if (selectedButtonId != -1) {
+    if (selectedButtonId != "-1") {
       setState(() {
         buttonStates[selectedButtonId] =
             !(buttonStates[selectedButtonId] ?? false);
@@ -43,7 +43,7 @@ class _LibnaAppState extends State<LibnaApp> {
   }
 
   void _onColorSelected(Color spectrumColor, SelectableColor selectedColor) {
-    if (selectedButtonId != -1) {
+    if (selectedButtonId != "-1") {
       setState(() {
         buttonColors[selectedButtonId] = spectrumColor;
       });
@@ -69,23 +69,24 @@ class _LibnaAppState extends State<LibnaApp> {
                 children: [
                   CustomButtonWithImage(
                     buttonData:
-                        ButtonData(6, ImagesPathes.stairsLeftButton, () {}),
-                    isSelected: selectedButtonId == 6,
-                    isOn: buttonStates[6] ?? false,
+                        ButtonData("6", ImagesPathes.stairsLeftButton, () {}),
+                    isSelected: selectedButtonId == "6",
+                    isOn: buttonStates["6"] ?? false,
                     onButtonSelected: _onButtonSelected,
-                    selectedColor: buttonColors[6],
+                    selectedColor: buttonColors["6"],
                   ),
                   _buildPickerSection(context),
                   CustomButtonWithImage(
                     buttonData:
-                        ButtonData(6, ImagesPathes.stairsRightButton, () {}),
-                    isSelected: selectedButtonId == 6,
-                    isOn: buttonStates[6] ?? false,
+                        ButtonData("6", ImagesPathes.stairsRightButton, () {}),
+                    isSelected: selectedButtonId == "6",
+                    isOn: buttonStates["6"] ?? false,
                     onButtonSelected: _onButtonSelected,
-                    selectedColor: buttonColors[6],
+                    selectedColor: buttonColors["6"],
                   ),
                 ],
               ),
+              _buildEffectsSection(context),
             ],
           ),
         ),
@@ -95,24 +96,24 @@ class _LibnaAppState extends State<LibnaApp> {
 
   Widget _buildFirstSection(BuildContext context) {
     final List<ButtonData> buttons = [
-      ButtonData(2, ImagesPathes.woolLeftButton, () {}),
-      ButtonData(3, ImagesPathes.woolMiddleButton, () {}),
-      ButtonData(4, ImagesPathes.woolRightButton, () {}),
+      ButtonData("2", ImagesPathes.woolLeftButton, () {}),
+      ButtonData("3", ImagesPathes.woolMiddleButton, () {}),
+      ButtonData("4", ImagesPathes.woolRightButton, () {}),
     ];
     return Column(children: [
       CustomButtonWithImage(
         width: MediaQuery.of(context).size.width / 1.5,
-        buttonData: ButtonData(1, ImagesPathes.woolTopButton, () {}),
-        isSelected: selectedButtonId == 1,
-        isOn: buttonStates[1] ?? false,
+        buttonData: ButtonData("1", ImagesPathes.woolTopButton, () {}),
+        isSelected: selectedButtonId == "1",
+        isOn: buttonStates["1"] ?? false,
         onButtonSelected: _onButtonSelected,
-        selectedColor: buttonColors[1],
+        selectedColor: buttonColors["1"],
       ),
       Row(
         children: buttons.map((button) {
           return Expanded(
             child: CustomButtonWithImage(
-              buttonData: ButtonData(button.id, button.assetName, () {}),
+              buttonData: ButtonData("${button.id}", button.assetName, () {}),
               isSelected: selectedButtonId == button.id,
               isOn: buttonStates[button.id] ?? false,
               onButtonSelected: _onButtonSelected,
@@ -122,11 +123,11 @@ class _LibnaAppState extends State<LibnaApp> {
         }).toList(),
       ),
       CustomButtonWithImage(
-        buttonData: ButtonData(5, ImagesPathes.floorButton, () {}),
-        isSelected: selectedButtonId == 5,
-        isOn: buttonStates[5] ?? false,
+        buttonData: ButtonData("5", ImagesPathes.floorButton, () {}),
+        isSelected: selectedButtonId == "5",
+        isOn: buttonStates["5"] ?? false,
         onButtonSelected: _onButtonSelected,
-        selectedColor: buttonColors[5],
+        selectedColor: buttonColors["5"],
       ),
     ]);
   }
@@ -140,13 +141,37 @@ class _LibnaAppState extends State<LibnaApp> {
         width: width,
         child: CustomButtonWithImage(
           buttonData:
-              ButtonData(0, ImagesPathes.powerButton, _onPowerButtonPressed),
+              ButtonData("0", ImagesPathes.powerButton, _onPowerButtonPressed),
           isSelected: false,
           isOn: false,
           onButtonSelected: (id) {},
           width: width,
         ),
       ),
+    );
+  }
+
+  Widget _buildEffectsSection(BuildContext context) {
+    final List<ButtonData> buttons = [
+      ButtonData("A", ImagesPathes.buttonA, () {}),
+      ButtonData("B", ImagesPathes.buttonB, () {}),
+      ButtonData("C", ImagesPathes.buttonC, () {}),
+      ButtonData("D", ImagesPathes.buttonD, () {}),
+      ButtonData("E", ImagesPathes.buttonE, () {}),
+    ];
+    return Row(
+      children: buttons.map((button) {
+        return Expanded(
+          child: CustomButtonWithImage(
+            buttonData: ButtonData(button.id, button.assetName, () {}),
+            isSelected: selectedButtonId == button.id,
+            isOn: buttonStates[button.id] ?? false,
+            onButtonSelected: _onButtonSelected,
+            width: MediaQuery.of(context).size.width / 6,
+            isEffect: true,
+          ),
+        );
+      }).toList(),
     );
   }
 }

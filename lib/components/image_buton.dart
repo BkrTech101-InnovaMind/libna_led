@@ -8,7 +8,8 @@ class CustomButtonWithImage extends StatefulWidget {
   final double? width;
   final bool isSelected;
   final bool isOn;
-  final Function(int) onButtonSelected;
+  final bool isEffect;
+  final Function(dynamic) onButtonSelected;
   final Color? selectedColor;
 
   const CustomButtonWithImage({
@@ -19,6 +20,7 @@ class CustomButtonWithImage extends StatefulWidget {
     required this.onButtonSelected,
     required this.isOn,
     this.selectedColor,
+    this.isEffect = false,
   });
 
   @override
@@ -46,7 +48,7 @@ class _CustomButtonWithImageState extends State<CustomButtonWithImage> {
       icon: Stack(
         alignment: Alignment.center,
         children: [
-          if (widget.isSelected) ...[
+          if (!widget.isEffect && widget.isSelected) ...[
             Positioned(
               top: -2,
               left: -2,
@@ -76,13 +78,17 @@ class _CustomButtonWithImageState extends State<CustomButtonWithImage> {
             widget.buttonData.assetName,
             width: widget.width ?? MediaQuery.of(context).size.width / 4,
             colorFilter: ColorFilter.mode(
-              widget.isOn
-                  ? widget.selectedColor ?? AppColors.onColor
-                  : widget.isSelected
-                      ? widget.isOn
-                          ? AppColors.onColor
+              !widget.isEffect
+                  ? widget.isOn
+                      ? widget.selectedColor ?? AppColors.onColor
+                      : widget.isSelected
+                          ? widget.isOn
+                              ? AppColors.onColor
+                              : AppColors.offColor
                           : AppColors.offColor
-                      : AppColors.offColor,
+                  : widget.isOn
+                      ? Colors.white
+                      : Colors.grey,
               BlendMode.srcIn,
             ),
           ),
