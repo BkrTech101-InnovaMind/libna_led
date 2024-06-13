@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:libna/common/app_colors.dart';
 import 'package:libna/common/images_paths.dart';
+import 'package:libna/common/water_colors.dart';
 import 'package:libna/components/color_picker.dart';
 import 'package:libna/components/image_buton.dart';
 import 'package:libna/modules/button_data.dart';
@@ -15,13 +17,15 @@ class LibnaApp extends StatefulWidget {
 class _LibnaAppState extends State<LibnaApp> {
   int selectedButtonId = -1;
   Map<int, bool> buttonStates = {};
+  Map<int, Color> buttonColors = {};
 
   void _onButtonSelected(int id) {
     setState(() {
       selectedButtonId = id;
     });
+    Color color = buttonColors[id] ?? AppColors.onColor;
     print(
-        'Button ID: $selectedButtonId ${buttonStates[selectedButtonId] == true ? "On" : "Off"}');
+        'Button ID: $selectedButtonId State: ${buttonStates[selectedButtonId] == true ? "On" : "Off"} Color: RGB(${color.red}, ${color.green}, ${color.blue})');
   }
 
   void _onPowerButtonPressed() {
@@ -31,8 +35,22 @@ class _LibnaAppState extends State<LibnaApp> {
         buttonStates[selectedButtonId] =
             !(buttonStates[selectedButtonId] ?? false);
       });
+      bool isOn = buttonStates[selectedButtonId] == true;
+      Color color = buttonColors[selectedButtonId] ?? AppColors.onColor;
       print(
-          'Button ID: $selectedButtonId, State: ${buttonStates[selectedButtonId] == true ? "On" : "Off"}');
+          'Button ID: $selectedButtonId, State: ${isOn ? "On" : "Off"}, Color: RGB(${color.red}, ${color.green}, ${color.blue})');
+    }
+  }
+
+  void _onColorSelected(Color spectrumColor, SelectableColor selectedColor) {
+    if (selectedButtonId != -1) {
+      setState(() {
+        buttonColors[selectedButtonId] = spectrumColor;
+      });
+      bool isOn = buttonStates[selectedButtonId] == true;
+      Color color = buttonColors[selectedButtonId] ?? AppColors.onColor;
+      print(
+          'Button ID: $selectedButtonId, State: ${isOn ? "On" : "Off"}, Color: RGB(${color.red}, ${color.green}, ${color.blue})');
     }
   }
 
@@ -55,6 +73,7 @@ class _LibnaAppState extends State<LibnaApp> {
                     isSelected: selectedButtonId == 6,
                     isOn: buttonStates[6] ?? false,
                     onButtonSelected: _onButtonSelected,
+                    selectedColor: buttonColors[6],
                   ),
                   _buildPickerSection(context),
                   CustomButtonWithImage(
@@ -63,6 +82,7 @@ class _LibnaAppState extends State<LibnaApp> {
                     isSelected: selectedButtonId == 6,
                     isOn: buttonStates[6] ?? false,
                     onButtonSelected: _onButtonSelected,
+                    selectedColor: buttonColors[6],
                   ),
                 ],
               ),
@@ -86,6 +106,7 @@ class _LibnaAppState extends State<LibnaApp> {
         isSelected: selectedButtonId == 1,
         isOn: buttonStates[1] ?? false,
         onButtonSelected: _onButtonSelected,
+        selectedColor: buttonColors[1],
       ),
       Row(
         children: buttons.map((button) {
@@ -95,6 +116,7 @@ class _LibnaAppState extends State<LibnaApp> {
               isSelected: selectedButtonId == button.id,
               isOn: buttonStates[button.id] ?? false,
               onButtonSelected: _onButtonSelected,
+              selectedColor: buttonColors[button.id],
             ),
           );
         }).toList(),
@@ -104,24 +126,24 @@ class _LibnaAppState extends State<LibnaApp> {
         isSelected: selectedButtonId == 5,
         isOn: buttonStates[5] ?? false,
         onButtonSelected: _onButtonSelected,
+        selectedColor: buttonColors[5],
       ),
     ]);
   }
 
   Widget _buildPickerSection(BuildContext context) {
-    return Column(
-      children: [
-        ColorPicker(
-          onColorSelected: (spectrumColor, selectedColor) {},
-        ),
-        CustomButtonWithImage(
-          buttonData:
-              ButtonData(0, ImagesPathes.powerButton, _onPowerButtonPressed),
-          isSelected: false,
-          isOn: false,
-          onButtonSelected: (id) {},
-        )
-      ],
+    final double width = MediaQuery.of(context).size.width / 6;
+    return ColorPicker(
+      onColorSelected: _onColorSelected,
+      width: width,
+      child: CustomButtonWithImage(
+        buttonData:
+            ButtonData(0, ImagesPathes.powerButton, _onPowerButtonPressed),
+        isSelected: false,
+        isOn: false,
+        onButtonSelected: (id) {},
+        // width: width,
+      ),
     );
   }
 }
