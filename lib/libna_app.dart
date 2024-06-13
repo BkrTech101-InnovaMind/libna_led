@@ -26,7 +26,6 @@ class _LibnaAppState extends State<LibnaApp> {
     bool allButtonsOn = true;
     bool isEffectButtonSelected = _isEffectButton(selectedButtonId);
 
-    // Check if all non-effect buttons are on
     buttonStates.forEach((key, value) {
       if (!_isEffectButton(key) && !value) {
         allButtonsOn = false;
@@ -37,15 +36,11 @@ class _LibnaAppState extends State<LibnaApp> {
       String idToSend;
 
       if (isEffectButtonSelected) {
-        // Effect button is selected, send "all"
         idToSend = "all";
       } else {
-        // Non-effect button is selected
         if (allButtonsOn) {
-          // All non-effect buttons are on, send "all"
           idToSend = "all";
         } else {
-          // Send the selected button's IP
           idToSend = '192.168.0.$selectedButtonId';
         }
       }
@@ -213,7 +208,7 @@ class _LibnaAppState extends State<LibnaApp> {
           buttonData:
               ButtonData("0", ImagesPathes.powerButton, _onPowerButtonPressed),
           isSelected: false,
-          isOn: false,
+          isOn: buttonStates[selectedButtonId] ?? false,
           onButtonSelected: (id) {},
           width: width,
         ),
