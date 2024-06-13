@@ -80,12 +80,10 @@ class _CustomButtonWithImageState extends State<CustomButtonWithImage> {
             colorFilter: ColorFilter.mode(
               !widget.isEffect
                   ? widget.isOn
-                      ? widget.selectedColor ?? AppColors.onColor
-                      : widget.isSelected
-                          ? widget.isOn
-                              ? AppColors.onColor
-                              : AppColors.offColor
+                      ? widget.isSelected
+                          ? widget.selectedColor ?? AppColors.onColor
                           : AppColors.offColor
+                      : AppColors.offColor
                   : widget.isOn
                       ? Colors.white
                       : Colors.grey,

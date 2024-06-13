@@ -206,7 +206,8 @@ class _LibnaAppState extends State<LibnaApp> {
   Widget _buildPickerSection(BuildContext context) {
     final double width = MediaQuery.of(context).size.width / 5;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: width / 2, vertical: width / 2),
+      padding:
+          EdgeInsets.symmetric(horizontal: width / 2.2, vertical: width / 2),
       child: ColorPicker(
         onColorSelected: _onColorSelected,
         width: width,
