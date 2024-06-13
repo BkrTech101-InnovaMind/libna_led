@@ -132,17 +132,20 @@ class _LibnaAppState extends State<LibnaApp> {
   }
 
   Widget _buildPickerSection(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width / 6;
-    return ColorPicker(
-      onColorSelected: _onColorSelected,
-      width: width,
-      child: CustomButtonWithImage(
-        buttonData:
-            ButtonData(0, ImagesPathes.powerButton, _onPowerButtonPressed),
-        isSelected: false,
-        isOn: false,
-        onButtonSelected: (id) {},
-        // width: width,
+    final double width = MediaQuery.of(context).size.width / 5;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: width / 2, vertical: width / 2),
+      child: ColorPicker(
+        onColorSelected: _onColorSelected,
+        width: width,
+        child: CustomButtonWithImage(
+          buttonData:
+              ButtonData(0, ImagesPathes.powerButton, _onPowerButtonPressed),
+          isSelected: false,
+          isOn: false,
+          onButtonSelected: (id) {},
+          width: width,
+        ),
       ),
     );
   }
