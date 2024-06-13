@@ -23,17 +23,43 @@ class _LibnaAppState extends State<LibnaApp> {
   Map<String, dynamic> selectedButtonData = {};
 
   void _updateButtonData() {
+    bool allButtonsOn = true;
+    bool isEffectButtonSelected = _isEffectButton(selectedButtonId);
+
+    // Check if all non-effect buttons are on
+    buttonStates.forEach((key, value) {
+      if (!_isEffectButton(key) && !value) {
+        allButtonsOn = false;
+      }
+    });
+
     if (selectedButtonId != "-1") {
+      String idToSend;
+
+      if (isEffectButtonSelected) {
+        // Effect button is selected, send "all"
+        idToSend = "all";
+      } else {
+        // Non-effect button is selected
+        if (allButtonsOn) {
+          // All non-effect buttons are on, send "all"
+          idToSend = "all";
+        } else {
+          // Send the selected button's IP
+          idToSend = '192.168.0.$selectedButtonId';
+        }
+      }
+
       bool isOn = buttonStates[selectedButtonId] ?? false;
       Color color = buttonColors[selectedButtonId] ?? AppColors.onColor;
 
       String? effectLetter =
-          activeEffectButtonId != null && buttonStates[activeEffectButtonId]!
+          isEffectButtonSelected && buttonStates[activeEffectButtonId]!
               ? activeEffectButtonId
               : "None";
 
       selectedButtonData = {
-        'id': '192.168.0.$selectedButtonId',
+        'id': idToSend,
         'state': isOn ? "On" : "Off",
         'color': 'RGB(${color.red}, ${color.green}, ${color.blue})',
         'effect': effectLetter,
