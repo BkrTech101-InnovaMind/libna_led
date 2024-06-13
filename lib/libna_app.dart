@@ -33,13 +33,11 @@ class _LibnaAppState extends State<LibnaApp> {
               : "None";
 
       selectedButtonData = {
-        'id': '192.168.0.${selectedButtonId}',
+        'id': '192.168.0.$selectedButtonId',
         'state': isOn ? "On" : "Off",
         'color': 'RGB(${color.red}, ${color.green}, ${color.blue})',
         'effect': effectLetter,
       };
-
-      print(selectedButtonData);
     }
   }
 
@@ -98,33 +96,36 @@ class _LibnaAppState extends State<LibnaApp> {
       title: 'Libna App',
       home: Scaffold(
         body: SafeArea(
-          child: Column(
-            children: [
-              _buildFirstSection(context),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomButtonWithImage(
-                    buttonData:
-                        ButtonData("6", ImagesPathes.stairsLeftButton, () {}),
-                    isSelected: selectedButtonId == "6",
-                    isOn: buttonStates["6"] ?? false,
-                    onButtonSelected: _onButtonSelected,
-                    selectedColor: buttonColors["6"],
-                  ),
-                  _buildPickerSection(context),
-                  CustomButtonWithImage(
-                    buttonData:
-                        ButtonData("6", ImagesPathes.stairsRightButton, () {}),
-                    isSelected: selectedButtonId == "6",
-                    isOn: buttonStates["6"] ?? false,
-                    onButtonSelected: _onButtonSelected,
-                    selectedColor: buttonColors["6"],
-                  ),
-                ],
-              ),
-              _buildEffectsSection(context),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              children: [
+                _buildFirstSection(context),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomButtonWithImage(
+                      buttonData:
+                          ButtonData("6", ImagesPathes.stairsLeftButton, () {}),
+                      isSelected: selectedButtonId == "6",
+                      isOn: buttonStates["6"] ?? false,
+                      onButtonSelected: _onButtonSelected,
+                      selectedColor: buttonColors["6"],
+                    ),
+                    _buildPickerSection(context),
+                    CustomButtonWithImage(
+                      buttonData: ButtonData(
+                          "6", ImagesPathes.stairsRightButton, () {}),
+                      isSelected: selectedButtonId == "6",
+                      isOn: buttonStates["6"] ?? false,
+                      onButtonSelected: _onButtonSelected,
+                      selectedColor: buttonColors["6"],
+                    ),
+                  ],
+                ),
+                _buildEffectsSection(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -146,6 +147,7 @@ class _LibnaAppState extends State<LibnaApp> {
         onButtonSelected: _onButtonSelected,
         selectedColor: buttonColors["1"],
       ),
+      const SizedBox(height: 20),
       Row(
         children: buttons.map((button) {
           return Expanded(
@@ -159,12 +161,14 @@ class _LibnaAppState extends State<LibnaApp> {
           );
         }).toList(),
       ),
+      const SizedBox(height: 20),
       CustomButtonWithImage(
         buttonData: ButtonData("5", ImagesPathes.floorButton, () {}),
         isSelected: selectedButtonId == "5",
         isOn: buttonStates["5"] ?? false,
         onButtonSelected: _onButtonSelected,
         selectedColor: buttonColors["5"],
+        width: MediaQuery.of(context).size.width / 2.4,
       ),
     ]);
   }
@@ -196,19 +200,22 @@ class _LibnaAppState extends State<LibnaApp> {
       ButtonData("D", ImagesPathes.buttonD, () {}),
       ButtonData("E", ImagesPathes.buttonE, () {}),
     ];
-    return Row(
-      children: buttons.map((button) {
-        return Expanded(
-          child: CustomButtonWithImage(
-            buttonData: ButtonData(button.id, button.assetName, () {}),
-            isSelected: selectedButtonId == button.id,
-            isOn: buttonStates[button.id] ?? false,
-            onButtonSelected: _onButtonSelected,
-            width: MediaQuery.of(context).size.width / 6,
-            isEffect: true,
-          ),
-        );
-      }).toList(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 50),
+      child: Row(
+        children: buttons.map((button) {
+          return Expanded(
+            child: CustomButtonWithImage(
+              buttonData: ButtonData(button.id, button.assetName, () {}),
+              isSelected: selectedButtonId == button.id,
+              isOn: buttonStates[button.id] ?? false,
+              onButtonSelected: _onButtonSelected,
+              width: MediaQuery.of(context).size.width / 8,
+              isEffect: true,
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }
