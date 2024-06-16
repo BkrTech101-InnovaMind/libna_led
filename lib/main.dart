@@ -1,11 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:libna/libna_app.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:libna_system/screens/home_screen.dart';
+import 'package:libna_system/theme/theme_data.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(
-    const LibnaApp(),
+  SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
   );
+  runApp(const LibnaSystem());
+}
+
+mixin AppLocale {
+  static const String title = 'title';
+
+  static const Map<String, dynamic> ar = {title: 'Localization'};
+}
+
+class LibnaSystem extends StatefulWidget {
+  const LibnaSystem({super.key});
+
+  @override
+  State<LibnaSystem> createState() => _LibnaSystemState();
+}
+
+class _LibnaSystemState extends State<LibnaSystem> {
+  final FlutterLocalization _localization = FlutterLocalization.instance;
+
+  @override
+  void initState() {
+    _localization.init(
+      mapLocales: [
+        const MapLocale('ar', {"countryCode": "YE"}),
+      ],
+      initLanguageCode: 'ar',
+    );
+    _localization.onTranslatedLanguage = _onTranslatedLanguage;
+    super.initState();
+  }
+
+  void _onTranslatedLanguage(Locale? locale) {
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeProvider.darkTheme,
+      supportedLocales: _localization.supportedLocales,
+      localizationsDelegates: _localization.localizationsDelegates,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomeScreen(),
+      },
+    );
+  }
 }

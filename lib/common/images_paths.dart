@@ -15,4 +15,5 @@ class ImagesPathes {
   static const String woolRightButton = "assets/wool_right_button.svg";
   static const String floorButton = "assets/floor_button.svg";
   static const String woolTopButton = "assets/wool_top_button.svg";
+  static const String sendButton = "assets/send_button.svg";
 }

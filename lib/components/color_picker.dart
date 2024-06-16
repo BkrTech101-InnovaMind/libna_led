@@ -1,88 +1,101 @@
-import 'dart:math';
-
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:libna/common/water_colors.dart';
+import 'package:flutter/services.dart';
+import 'package:libna_system/common/app_colors.dart';
 
 class ColorPicker extends StatefulWidget {
   final double? width;
+  final Function(Color spectrumColor)? onColorSelected;
 
-  final Function(Color spectrumColor, SelectableColor selectedColor)?
-      onColorSelected;
-  final Widget? child;
-
-  const ColorPicker({super.key, this.onColorSelected, this.width, this.child});
+  const ColorPicker({super.key, this.onColorSelected, this.width});
 
   @override
   State<ColorPicker> createState() => _ColorPickerState();
 }
 
 class _ColorPickerState extends State<ColorPicker> {
+  ui.Image? image;
+  Color selectedColor = Colors.transparent;
+  Offset currentPosition = const Offset(150, 150);
+
+  @override
+  void initState() {
+    super.initState();
+    _loadImage();
+  }
+
+  Future<void> _loadImage() async {
+    final ByteData data = await rootBundle.load('assets/picker.png');
+    final Uint8List bytes = Uint8List.view(data.buffer);
+    final ui.Codec codec = await ui.instantiateImageCodec(bytes);
+    final ui.FrameInfo frame = await codec.getNextFrame();
+    setState(() {
+      image = frame.image;
+    });
+  }
+
   void _selectColors(Offset position) {
-    final RenderBox box = context.findRenderObject() as RenderBox;
-    final double width = box.size.width;
-    final double touchX = position.dx.clamp(0.0, width);
-    final double positionRatio = touchX / width;
+    if (image == null) return;
 
-    final int colorCount = selectableColors.length;
-    final double segmentWidth = width / (colorCount - 1);
+    double x =
+        (position.dx / context.size!.width * image!.width).toInt().toDouble();
+    double y =
+        (position.dy / context.size!.height * image!.height).toInt().toDouble();
 
-    final int leftIndex =
-        (positionRatio * (colorCount - 1)).floor().clamp(0, colorCount - 1);
-    final int rightIndex =
-        (positionRatio * (colorCount - 1)).ceil().clamp(0, colorCount - 1);
+    if (x < 0 || x >= image!.width || y < 0 || y >= image!.height) return;
 
-    final SelectableColor leftColor = selectableColors[leftIndex];
-    final SelectableColor rightColor = selectableColors[rightIndex];
+    int xPos = x.toInt();
+    int yPos = y.toInt();
 
-    final double localPosition =
-        (touchX - leftIndex * segmentWidth) / segmentWidth;
-    final spectrumColor =
-        Color.lerp(leftColor.color, rightColor.color, localPosition)!;
+    image!.toByteData(format: ui.ImageByteFormat.rawRgba).then((byteData) {
+      if (byteData == null) return;
+      final int pixelIndex = (yPos * image!.width + xPos) * 4;
+      final int r = byteData.getUint8(pixelIndex);
+      final int g = byteData.getUint8(pixelIndex + 1);
+      final int b = byteData.getUint8(pixelIndex + 2);
+      final int a = byteData.getUint8(pixelIndex + 3);
 
-    final SelectableColor selectedColor =
-        localPosition <= 0.5 ? leftColor : rightColor;
-
-    widget.onColorSelected?.call(spectrumColor, selectedColor);
+      final Color color = Color.fromARGB(a, r, g, b);
+      setState(() {
+        selectedColor = color;
+        currentPosition = position;
+      });
+      widget.onColorSelected?.call(color);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onPanDown: (DragDownDetails details) {
-        _selectColors(details.localPosition);
-      },
-      onHorizontalDragUpdate: (DragUpdateDetails details) {
-        _selectColors(details.localPosition);
-      },
-      child: CustomPaint(
-        size: Size(widget.width ?? MediaQuery.of(context).size.width / 2, 100),
-        painter: SemicirclePainter(
-          colors: selectableColors
-              .map((SelectableColor color) => color.color)
-              .toList(),
+    return Stack(
+      alignment: AlignmentGeometry.lerp(
+          Alignment.topLeft, Alignment.bottomRight, 0.5)!,
+      children: [
+        GestureDetector(
+          onPanDown: (DragDownDetails details) {
+            _selectColors(details.localPosition);
+          },
+          onPanUpdate: (DragUpdateDetails details) {
+            _selectColors(details.localPosition);
+          },
+          child: RawImage(
+            image: image,
+            width: widget.width ?? MediaQuery.of(context).size.width / 4,
+          ),
         ),
-        child: widget.child,
-      ),
+        Positioned(
+          left: currentPosition.dx - 10,
+          top: currentPosition.dy - 10,
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.activeEffectColor,
+              shape: BoxShape.circle,
+              border: Border.all(color: AppColors.offColor, width: 2),
+            ),
+            width: 20,
+            height: 20,
+          ),
+        )
+      ],
     );
   }
-}
-
-class SemicirclePainter extends CustomPainter {
-  final List<Color> colors;
-  SemicirclePainter({required this.colors});
-  @override
-  void paint(Canvas canvas, Size size) {
-    final arcRect = Rect.fromCircle(
-        center: size.center(Offset.zero), radius: size.shortestSide / 1.4);
-    final gradient = Paint()
-      ..shader = LinearGradient(colors: colors).createShader(arcRect)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 15
-      ..strokeCap = StrokeCap.round;
-
-    canvas.drawArc(arcRect, 0, -pi, false, gradient);
-  }
-
-  @override
-  bool shouldRepaint(SemicirclePainter oldDelegate) => false;
 }
