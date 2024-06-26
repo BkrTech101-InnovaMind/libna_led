@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:libna_system/common/app_colors.dart';
 import 'package:libna_system/common/images_paths.dart';
 import 'package:libna_system/components/brightness_picker.dart';
@@ -29,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _onLampButtonSelected(dynamic id) {
+  void _onLampButtonSelected(String id) {
     setState(() {
       buttonData.id = id;
     });
@@ -53,8 +51,36 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       brightness = brightnessValue;
     });
+  }
 
-    print(brightnessValue);
+  void _onSend() {
+    if (buttonData.id == "6") {
+      sendData(
+        context,
+        id: "7",
+        state: buttonData.state,
+        brightness: brightness.toString(),
+        color: buttonData.color!,
+        fx: effect,
+      );
+      sendData(
+        context,
+        id: "8",
+        state: buttonData.state,
+        brightness: brightness.toString(),
+        color: buttonData.color!,
+        fx: effect,
+      );
+    } else {
+      sendData(
+        context,
+        id: (int.parse(buttonData.id) + 1).toString(),
+        state: buttonData.state,
+        brightness: brightness.toString(),
+        color: buttonData.color!,
+        fx: effect,
+      );
+    }
   }
 
   @override
@@ -158,16 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
         "",
         asset: ImagesPathes.sendButton,
         state: "",
-        onPressed: (_) {
-          sendData(
-            context,
-            id: buttonData.id,
-            state: buttonData.state,
-            brightness: brightness.toString(),
-            color: buttonData.color!,
-            fx: effect,
-          );
-        },
+        onPressed: (_) => _onSend(),
       ),
       ButtonData(
         "",
@@ -207,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ? false
                             : buttonData.id == button.id,
                     buttonData: button,
-                    width: button.id != "6"
+                    width: button.id != "6" && button.id != "7"
                         ? button.asset == ImagesPathes.sendButton
                             ? MediaQuery.of(context).size.width / 15
                             : MediaQuery.of(context).size.width / 7.5
