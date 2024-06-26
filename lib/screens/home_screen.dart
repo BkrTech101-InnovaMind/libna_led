@@ -4,6 +4,7 @@ import 'package:libna_system/common/images_paths.dart';
 import 'package:libna_system/components/brightness_picker.dart';
 import 'package:libna_system/components/color_picker.dart';
 import 'package:libna_system/components/footer_text.dart';
+import 'package:libna_system/components/spinner.dart';
 import 'package:libna_system/components/svg_button.dart';
 import 'package:libna_system/modules/button_data.dart';
 import 'package:libna_system/utils/config.dart';
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _onSend() {
+  void _onSend(_) {
     if (buttonData.id == "6") {
       sendData(
         context,
@@ -74,7 +75,9 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       sendData(
         context,
-        id: (int.parse(buttonData.id) + 1).toString(),
+        id: buttonData.id != ""
+            ? (int.parse(buttonData.id) + 1).toString()
+            : "",
         state: buttonData.state,
         brightness: brightness.toString(),
         color: buttonData.color!,
@@ -87,54 +90,61 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.all(MediaQuery.of(context).size.width / 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgButton(
-                buttonData: ButtonData(
-                  "1",
-                  asset: ImagesPathes.woolTopButton,
-                  state: "1",
-                  onPressed: _onLampButtonSelected,
-                  color: buttonData.color,
-                ),
-                isSelected: buttonData.id == "1",
-                width: MediaQuery.of(context).size.width / 2,
+        child: Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.all(MediaQuery.of(context).size.width / 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SvgButton(
+                    buttonData: ButtonData(
+                      "1",
+                      asset: ImagesPathes.woolTopButton,
+                      state: "1",
+                      onPressed: _onLampButtonSelected,
+                      color: buttonData.color,
+                    ),
+                    isSelected: buttonData.id == "1",
+                    width: MediaQuery.of(context).size.width / 2,
+                  ),
+                  const SizedBox(height: 15),
+                  _buildWallsSection(context),
+                  const SizedBox(height: 15),
+                  SvgButton(
+                    buttonData: ButtonData(
+                      "5",
+                      asset: ImagesPathes.floorButton,
+                      state: buttonData.state,
+                      onPressed: _onLampButtonSelected,
+                      color: buttonData.color,
+                    ),
+                    isSelected: buttonData.id == "5",
+                  ),
+                  _buildMiddleSection(context),
+                  const SizedBox(height: 15),
+                  ColorPicker(
+                    onColorSelected: _onColorSelected,
+                  ),
+                  const SizedBox(height: 15),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 60),
+                    child: BrightnessPicker(
+                      onBrightnessMoved: _onBrightnessMoved,
+                      baseColor: buttonData.color,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  _buildEffectsSection(context),
+                  const SizedBox(height: 50),
+                  const FooterText(),
+                ],
               ),
-              const SizedBox(height: 15),
-              _buildWallsSection(context),
-              const SizedBox(height: 15),
-              SvgButton(
-                buttonData: ButtonData(
-                  "5",
-                  asset: ImagesPathes.floorButton,
-                  state: buttonData.state,
-                  onPressed: _onLampButtonSelected,
-                  color: buttonData.color,
-                ),
-                isSelected: buttonData.id == "5",
-              ),
-              _buildMiddleSection(context),
-              const SizedBox(height: 15),
-              ColorPicker(
-                onColorSelected: _onColorSelected,
-              ),
-              const SizedBox(height: 15),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 60),
-                child: BrightnessPicker(
-                  onBrightnessMoved: _onBrightnessMoved,
-                  baseColor: buttonData.color,
-                ),
-              ),
-              const SizedBox(height: 15),
-              _buildEffectsSection(context),
-              const SizedBox(height: 50),
-              const FooterText(),
-            ],
-          ),
+            ),
+            Positioned.fill(
+              child: SpinKitChasingDots(color: buttonData.color),
+            ),
+          ],
         ),
       ),
     );
@@ -184,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
         "",
         asset: ImagesPathes.sendButton,
         state: "",
-        onPressed: (_) => _onSend(),
+        onPressed: _onSend,
       ),
       ButtonData(
         "",
