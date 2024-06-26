@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:libna_system/screens/home_screen.dart';
+import 'package:libna_system/store/app_store.dart';
 import 'package:libna_system/theme/theme_data.dart';
+
+AppStore appStore = AppStore();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
