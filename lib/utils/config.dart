@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:libna_system/components/messenger.dart';
@@ -29,7 +31,7 @@ void sendData(
     "$baseUrl$id",
     "$urlRout$stateRout$state&$brightnessRout$brightness&$rRout${color.red}&$gRout${color.green}&$bRout${color.blue}&$effectsRout$fx",
   );
-  print(url);
+  log("$url");
   try {
     final res = await http.post(url);
     if (res.statusCode == 200 ||
@@ -42,41 +44,14 @@ void sendData(
         ),
       );
     }
-    print(res.statusCode);
-  } on http.ClientException catch (e) {
-    print(e);
-    if (e.message.contains("Connection failed")) {
-      showTopSnackBar(
-        Overlay.of(context),
-        const CustomSnackBar.error(
-          message:
-              'خطأ: فشل الاتصال بالنظام.\n يرجى الاتصال بنفس الشبكة المتصله بالنضام الضوئي',
-        ),
-      );
-    } else if (e.message.contains("Failed host lookup")) {
-      showTopSnackBar(
-        Overlay.of(context),
-        const CustomSnackBar.error(
-          message: 'يجب ان تقوم باختيار زر على الاقل',
-        ),
-      );
-    } else if (e.message.contains("Connection timed out")) {
-      showTopSnackBar(
-        Overlay.of(context),
-        const CustomSnackBar.error(
-          message: '''
-          فشل الاتصال يرجى اعادة المحاولة
-          اذا استمرت المشكلة فيرجى التواصل مع ادارة النضام
-          ''',
-        ),
-      );
-    } else {
-      showTopSnackBar(
-        Overlay.of(context),
-        CustomSnackBar.error(
-          message: 'خطأ: ${e.message}.',
-        ),
-      );
-    }
+    log("${res.statusCode}");
+  } catch (e) {
+    log("$e");
+    showTopSnackBar(
+      Overlay.of(context),
+      CustomSnackBar.error(
+        message: 'خطأ: $e',
+      ),
+    );
   }
 }
