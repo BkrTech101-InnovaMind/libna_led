@@ -1,0 +1,5 @@
+1- T= // State of on & off takes 0 for off or 1 for on
+2- A= // Brightness taks from 0 to 255 for spot most be send 255
+3- R= &G= &B= // rgb colors of picker withour spaces
+4- FX= // to send the needed effect number from 0 to 102
+5- id= // the last number in the ip 192.168.1.$id
