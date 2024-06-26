@@ -5,7 +5,7 @@ class ButtonData {
   late String state;
   late Color? color;
   final String asset;
-  final Function(dynamic)? onPressed;
+  final Function(String)? onPressed;
 
   ButtonData(this.id,
       {required this.asset, required this.state, this.color, this.onPressed});
