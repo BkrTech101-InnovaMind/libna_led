@@ -11,14 +11,14 @@ AppStore appStore = AppStore();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  HttpOverrides.global = MyHttpOverrides();
+  HttpOverrides.global = HttpClientOverrides();
   SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
   );
   runApp(const LibnaSystem());
 }
 
-class MyHttpOverrides extends HttpOverrides {
+class HttpClientOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)

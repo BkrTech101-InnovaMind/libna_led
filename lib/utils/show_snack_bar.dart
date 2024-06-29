@@ -66,12 +66,12 @@ void showTopSnackBar(
   SnackBarPosition snackBarPosition = SnackBarPosition.top,
   List<DismissDirection> dismissDirection = const [DismissDirection.up],
 }) {
-  late OverlayEntry _overlayEntry;
-  _overlayEntry = OverlayEntry(
+  late OverlayEntry overlayEntry;
+  overlayEntry = OverlayEntry(
     builder: (_) {
       return _TopSnackBar(
         onDismissed: () {
-          _overlayEntry.remove();
+          overlayEntry.remove();
           _previousEntry = null;
         },
         animationDuration: animationDuration,
@@ -95,14 +95,13 @@ void showTopSnackBar(
     _previousEntry?.remove();
   }
 
-  overlayState.insert(_overlayEntry);
-  _previousEntry = _overlayEntry;
+  overlayState.insert(overlayEntry);
+  _previousEntry = overlayEntry;
 }
 
 /// Widget that controls all animations
 class _TopSnackBar extends StatefulWidget {
   const _TopSnackBar({
-    Key? key,
     required this.child,
     required this.onDismissed,
     required this.animationDuration,
@@ -117,7 +116,7 @@ class _TopSnackBar extends StatefulWidget {
     this.persistent = false,
     this.onAnimationControllerInit,
     this.dismissType = DismissType.onTap,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final VoidCallback onDismissed;
