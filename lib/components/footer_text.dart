@@ -14,9 +14,9 @@ class FooterText extends StatelessWidget {
             fontSize: MediaQuery.of(context).size.width / 35,
             fontWeight: FontWeight.w500,
           ),
-          text: "تصميم وتنفيذ نضام التحكم ",
+          text: "تصميم وتنفيذ نضام التحكم\n",
           children: const <InlineSpan>[
-            TextSpan(text: "لبنة للإستشارات والتصاميم الهندسيه "),
+            TextSpan(text: "لبنة للإستشارات والتصاميم الهندسيه\n"),
             TextSpan(text: "778007600"),
           ],
         ),
