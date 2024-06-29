@@ -1,1 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 311.66 434.82"><defs><style>.cls-1{fill:none;stroke:#0071bc;stroke-miterlimit:10;stroke-width:10px;}</style></defs><title>Asset 29Lebna-Lavendr</title><g id="Layer_2" data-name="Layer 2"><g id="led"><path class="cls-1" d="M267.77,244A492.25,492.25,0,0,0,162,87,493.4,493.4,0,0,0,56.86,6.8l-50,86.63c117.54,66.72,197.39,192.13,199.73,336.39h100A490.55,490.55,0,0,0,267.77,244Z"/><polyline class="cls-1" points="304.14 383.81 303.89 383.83 204.3 393.14"/><polyline class="cls-1" points="304.14 383.81 303.89 383.83 204.3 393.14"/><polyline class="cls-1" points="297.23 335.95 296.98 335.99 198.78 355"/><polyline class="cls-1" points="285.67 288.99 285.43 289.06 189.56 317.58"/><polyline class="cls-1" points="269.57 243.38 269.34 243.47 176.72 281.24"/><polyline class="cls-1" points="249.09 199.57 248.87 199.69 160.39 246.34"/><polyline class="cls-1" points="224.42 157.97 224.2 158.12 137.54 214.89"/><polyline class="cls-1" points="194.15 120.09 193.95 120.25 114.87 184.16"/><polyline class="cls-1" points="160.65 85.33 160.47 85.5 88.92 156.1"/><polyline class="cls-1" points="124.74 53.41 124.58 53.6 60.73 130.42"/><polyline class="cls-1" points="87.29 23.56 87.14 23.77 28.98 109.07"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 311.66 434.82">
+  <defs>
+  </defs>
+  <title>Asset 29Lebna-Lavendr</title>
+  <g id="Layer_2" data-name="Layer 2">
+    <g id="led">
+      <path fill="none" stroke="#0071bc" stroke-width="10px" stroke-miterlimit="10"
+        d="M267.77,244A492.25,492.25,0,0,0,162,87,493.4,493.4,0,0,0,56.86,6.8l-50,86.63c117.54,66.72,197.39,192.13,199.73,336.39h100A490.55,490.55,0,0,0,267.77,244Z" />
+      <polyline fill="none" stroke="#0071bc" stroke-width="10px" stroke-miterlimit="10"
+        points="304.14 383.81 303.89 383.83 204.3 393.14" />
+      <polyline fill="none" stroke="#0071bc" stroke-width="10px" stroke-miterlimit="10"
+        points="304.14 383.81 303.89 383.83 204.3 393.14" />
+      <polyline fill="none" stroke="#0071bc" stroke-width="10px" stroke-miterlimit="10"
+        points="297.23 335.95 296.98 335.99 198.78 355" />
+      <polyline fill="none" stroke="#0071bc" stroke-width="10px" stroke-miterlimit="10"
+        points="285.67 288.99 285.43 289.06 189.56 317.58" />
+      <polyline fill="none" stroke="#0071bc" stroke-width="10px" stroke-miterlimit="10"
+        points="269.57 243.38 269.34 243.47 176.72 281.24" />
+      <polyline fill="none" stroke="#0071bc" stroke-width="10px" stroke-miterlimit="10"
+        points="249.09 199.57 248.87 199.69 160.39 246.34" />
+      <polyline fill="none" stroke="#0071bc" stroke-width="10px" stroke-miterlimit="10"
+        points="224.42 157.97 224.2 158.12 137.54 214.89" />
+      <polyline fill="none" stroke="#0071bc" stroke-width="10px" stroke-miterlimit="10"
+        points="194.15 120.09 193.95 120.25 114.87 184.16" />
+      <polyline fill="none" stroke="#0071bc" stroke-width="10px" stroke-miterlimit="10"
+        points="160.65 85.33 160.47 85.5 88.92 156.1" />
+      <polyline fill="none" stroke="#0071bc" stroke-width="10px" stroke-miterlimit="10"
+        points="124.74 53.41 124.58 53.6 60.73 130.42" />
+      <polyline fill="none" stroke="#0071bc" stroke-width="10px" stroke-miterlimit="10"
+        points="87.29 23.56 87.14 23.77 28.98 109.07" />
+    </g>
+  </g>
+</svg>

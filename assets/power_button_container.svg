@@ -1,1 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 354 354"><defs><style>.cls-1{fill:#29abe2;}</style></defs><title>Asset 26Lebna-Lavendr</title><g id="Layer_2" data-name="Layer 2"><g id="color_wheel" data-name="color wheel"><path class="cls-1" d="M177,26A151,151,0,0,1,283.77,283.77,151,151,0,1,1,70.23,70.23,150,150,0,0,1,177,26m0-26A177,177,0,1,0,354,177,177,177,0,0,0,177,0Z"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 354 354">
+  <defs>
+  </defs>
+  <title>Asset 26Lebna-Lavendr</title>
+  <g id="Layer_2" data-name="Layer 2">
+    <g id="color_wheel" data-name="color wheel">
+      <path fill="#29abe2"
+        d="M177,26A151,151,0,0,1,283.77,283.77,151,151,0,1,1,70.23,70.23,150,150,0,0,1,177,26m0-26A177,177,0,1,0,354,177,177,177,0,0,0,177,0Z" />
+    </g>
+  </g>
+</svg>
