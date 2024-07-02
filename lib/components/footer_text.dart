@@ -11,7 +11,7 @@ class FooterText extends StatelessWidget {
         textAlign: TextAlign.center,
         text: TextSpan(
           style: TextStyle(
-            fontSize: MediaQuery.of(context).size.width / 35,
+            fontSize: MediaQuery.of(context).size.width / 65,
             fontWeight: FontWeight.w500,
           ),
           text: "تصميم وتنفيذ نضام التحكم\n",

@@ -17,14 +17,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String effect = "";
+  String effect = "0";
   int brightness = 0;
   ButtonData buttonData =
       ButtonData("", asset: "", state: "0", color: AppColors.selectedColor);
 
   void _onEffectSelected(dynamic fx) {
     setState(() {
-      effect = effect == fx ? "" : fx;
+      effect = effect == fx ? "0" : fx;
     });
   }
 
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (buttonData.id == "6") {
       sendData(
         context,
-        id: "7",
+        id: "6",
         state: buttonData.state,
         brightness: brightness.toString(),
         color: buttonData.color!,
@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
       sendData(
         context,
-        id: "8",
+        id: "7",
         state: buttonData.state,
         brightness: brightness.toString(),
         color: buttonData.color!,
@@ -75,9 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       sendData(
         context,
-        id: buttonData.id != ""
-            ? (int.parse(buttonData.id) + 1).toString()
-            : "",
+        id: buttonData.id,
         state: buttonData.state,
         brightness: brightness.toString(),
         color: buttonData.color!,
